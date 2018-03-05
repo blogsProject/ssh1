@@ -1,0 +1,188 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.luotianyi.test</groupId>
+	<artifactId>test</artifactId>
+	<packaging>war</packaging>
+	<version>0.0.1-SNAPSHOT</version>
+	<name>hibertest Maven Webapp</name>
+	<url>http://maven.apache.org</url>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+		<!-- dependencies插件相关 -->
+		<junit>4.12</junit>
+		<spring>4.3.6.RELEASE</spring>
+		<javax.servlet-api>3.1.0</javax.servlet-api>
+		<!-- <hibernate-validator>5.4.1.Final</hibernate-validator> -->
+		<hibernate-core>5.2.8.Final</hibernate-core>
+		<mysql-connector-java>5.1.41</mysql-connector-java>
+		<druid>1.0.29</druid>
+		<jackson>2.8.8</jackson>
+		<commons-io>2.5</commons-io>
+		<poi>3.15</poi>
+
+		<!-- build插件相关 -->
+		<!-- 源代码开发使用版本 -->
+		<maven.compiler.source>1.8</maven.compiler.source>
+		<!-- 编译目标版本 -->
+		<maven.compiler.target>1.8</maven.compiler.target>
+	</properties>
+
+	<!-- 依赖插件 -->
+	<dependencies>
+		<!-- 单元测试 -->
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>${junit}</version>
+			<scope>test</scope>
+		</dependency>
+
+		<!-- Spring 依赖 -->
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<version>${javax.servlet-api}</version>
+		</dependency>
+
+		<!-- Spring 插件 -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-webmvc</artifactId>
+			<version>${spring}</version>
+		</dependency>
+
+		<!-- Spring 管理orm框架（hibernate） -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-orm</artifactId>
+			<version>${spring}</version>
+		</dependency>
+
+		<!-- Spring 单元测试 -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-test</artifactId>
+			<version>${spring}</version>
+		</dependency>
+
+		<!-- hibernate 核心包 -->
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-core</artifactId>
+			<version>${hibernate-core}</version>
+		</dependency>
+
+		<!-- Java连接mysql -->
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>${mysql-connector-java}</version>
+		</dependency>
+
+		<!-- 数据源 -->
+		<dependency>
+			<groupId>com.alibaba</groupId>
+			<artifactId>druid</artifactId>
+			<version>${druid}</version>
+		</dependency>
+
+		<!-- 配置HttpMessageConverter 来使用@ResponseBody 数据转换格式使用json -->
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-core</artifactId>
+			<version>${jackson}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+			<version>${jackson}</version>
+		</dependency>
+
+		<!-- 文件处理工具类 -->
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>${commons-io}</version>
+		</dependency>
+
+		<!-- Java API To Access Microsoft Format Files -->
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi</artifactId>
+			<version>${poi}</version>
+		</dependency>
+
+		<!-- 常用包 equals() hashcode() 测试 -->
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+			<version>3.5</version>
+		</dependency>
+
+
+	</dependencies>
+	<build>
+		<finalName>test1</finalName>
+		<plugins>
+			<!-- 生成war包，忽略提醒failOnMissingWebXml -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-war-plugin</artifactId>
+				<version>3.0.0</version>
+				<configuration>
+					<failOnMissingWebXml>false</failOnMissingWebXml>
+				</configuration>
+			</plugin>
+			<!-- 单元测试 -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>2.19.1</version>
+				<!-- 插件手动匹配 -->
+				<!-- JUnit4.7及以上版本 配置 -->
+				<dependencies>
+					<dependency>
+						<groupId>org.apache.maven.surefire</groupId>
+						<artifactId>surefire-junit47</artifactId>
+						<version>2.19.1</version>
+					</dependency>
+				</dependencies>
+				<!-- 自动匹配逻辑 -->
+				<!-- if the JUnit version in the project >= 4.7 and the parallel attribute 
+					has ANY value -->
+				<!-- use junit47 provider -->
+				<!-- if JUnit >= 4.0 is present -->
+				<!-- use junit4 provider -->
+				<!-- else -->
+				<!-- use junit3.8.1 -->
+			</plugin>
+			<!-- JDK版本控制 -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.6.1</version>
+				<configuration>
+					<source>${maven.compiler.source}</source>
+					<target>${maven.compiler.target}</target>
+				</configuration>
+			</plugin>
+			<!-- 服务器 -->
+			<plugin>
+				<groupId>org.eclipse.jetty</groupId>
+				<artifactId>jetty-maven-plugin</artifactId>
+				<version>9.4.2.v20170220</version>
+				<configuration>
+					<webApp>
+						<contextPath>/</contextPath>
+						<!-- 配置静态资源可以热修改 -->
+						<defaultsDescriptor>src/main/resources/webdefault.xml</defaultsDescriptor>
+						<allowDuplicateFragmentNames>true</allowDuplicateFragmentNames>
+					</webApp>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+</project>
